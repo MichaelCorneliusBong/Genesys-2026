@@ -4,18 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use App\Models\Archetype;
 
 class Guide extends Model
 {
     protected $fillable = [
-        'deck_id',
+        'archetype_id',
         'title',
         'content',
         'sort_order',
     ];
 
-    public function deck(): BelongsTo
+    public function archetype()
     {
-        return $this->belongsTo(Deck::class);
+        return $this->belongsTo(
+            Archetype::class
+        );
     }
 }

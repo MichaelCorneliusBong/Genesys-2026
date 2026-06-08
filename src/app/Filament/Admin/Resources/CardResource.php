@@ -19,6 +19,14 @@ class CardResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Genesys';
+
+    protected static ?int $navigationSort = 2;
+
+    protected static ?string $modelLabel = 'Card';
+
+    protected static ?string $pluralModelLabel = 'Cards';
+
     public static function form(Form $form): Form
     {
         return $form
@@ -29,21 +37,27 @@ class CardResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->columns([
-                //
-            ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+    return $table
+        ->columns([
+
+            Tables\Columns\ImageColumn::make('local_image')
+                ->label('Card'),
+
+            Tables\Columns\TextColumn::make('name')
+                ->searchable()
+                ->sortable(),
+
+            Tables\Columns\TextColumn::make('type'),
+
+            Tables\Columns\TextColumn::make('attribute'),
+
+            Tables\Columns\TextColumn::make('genesys_points')
+                ->badge(),
+
+        ])
+        ->actions([
+            Tables\Actions\DeleteAction::make(),
+        ]);
     }
 
     public static function getRelations(): array

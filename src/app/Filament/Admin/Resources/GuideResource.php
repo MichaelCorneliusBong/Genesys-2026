@@ -26,7 +26,7 @@ class GuideResource extends Resource
 
     protected static ?string $navigationGroup = 'Genesys';
 
-    protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 4;
 
     protected static ?string $modelLabel = 'Guide';
 
@@ -36,10 +36,12 @@ class GuideResource extends Resource
     {
     return $form
         ->schema([
-            Select::make('deck_id')
-                ->relationship('deck', 'name')
+            Select::make('archetype_id')
+                ->relationship(
+                    'archetype',
+                    'name'
+                )
                 ->searchable()
-                ->preload()
                 ->required(),
 
             TextInput::make('title')
@@ -62,8 +64,8 @@ class GuideResource extends Resource
     {
     return $table
         ->columns([
-            TextColumn::make('deck.name')
-                ->label('Deck')
+            TextColumn::make('archetype.name')
+                ->label('Archetype')
                 ->searchable()
                 ->sortable(),
 
@@ -77,19 +79,19 @@ class GuideResource extends Resource
             TextColumn::make('created_at')
                 ->dateTime('d M Y')
                 ->sortable(),
-            ])
-            ->filters([
-                Tables\Filters\SelectFilter::make('deck_id')
-                ->relationship('deck', 'name'),
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+        ])
+        ->filters([
+            Tables\Filters\SelectFilter::make('archetype_id')
+                ->relationship('archetype', 'name'),
+        ])
+        ->actions([
+            Tables\Actions\EditAction::make(),
+        ])
+        ->bulkActions([
+            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\DeleteBulkAction::make(),
+            ]),
+        ]);
     }
 
     public static function getRelations(): array

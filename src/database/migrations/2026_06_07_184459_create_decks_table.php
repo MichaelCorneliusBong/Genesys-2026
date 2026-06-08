@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->string('name');
+
             $table->string('slug')->unique();
 
             $table->text('description')->nullable();
@@ -28,6 +29,16 @@ return new class extends Migration
             ])->default('beginner');
 
             $table->boolean('is_active')->default(true);
+
+            $table->string('author')->nullable();
+
+            $table->string('source')->nullable();
+
+            $table->string('tournament_name')->nullable();
+
+            $table->string('placement')->nullable();
+
+            $table->date('event_date')->nullable();
 
             $table->timestamps();
         });

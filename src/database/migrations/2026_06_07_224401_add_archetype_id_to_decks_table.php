@@ -11,21 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('guides', function (Blueprint $table) {
-            $table->id();
+        Schema::table('decks', function (Blueprint $table) {
 
             $table->foreignId('archetype_id')
+                ->nullable()
                 ->constrained()
                 ->cascadeOnDelete();
 
-            $table->string('title');
-
-            $table->longText('content');
-
-            $table->unsignedInteger('sort_order')
-                ->default(0);
-
-            $table->timestamps();
         });
     }
 
@@ -34,6 +26,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('guides');
+        Schema::table('decks', function (Blueprint $table) {
+            //
+        });
     }
 };

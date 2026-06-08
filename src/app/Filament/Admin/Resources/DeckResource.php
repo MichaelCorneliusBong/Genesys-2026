@@ -29,14 +29,14 @@ class DeckResource extends Resource
 
     protected static ?string $navigationGroup = 'Genesys';
 
-    protected static ?int $navigationSort = 1;
+    protected static ?int $navigationSort = 3;
 
     protected static ?string $modelLabel = 'Deck';
 
     protected static ?string $pluralModelLabel = 'Decks';
 
     public static function form(Form $form): Form
-{
+    {
     return $form
         ->schema([
             TextInput::make('name')
@@ -63,14 +63,37 @@ class DeckResource extends Resource
                 ])
                 ->required(),
 
+            Select::make('archetype_id')
+                ->relationship(
+                    'archetype',
+                    'name'
+                )
+                ->searchable()
+                ->required(),
+
             Toggle::make('is_active')
                 ->default(true),
 
             RichEditor::make('description')
                 ->columnSpanFull(),
+
+            Forms\Components\TextInput::make('author')
+                ->label('Author'),
+
+            Forms\Components\TextInput::make('source')
+                ->label('Source'),
+
+            Forms\Components\TextInput::make('tournament_name')
+                ->label('Tournament'),
+
+            Forms\Components\TextInput::make('placement')
+                ->label('Placement'),
+
+            Forms\Components\DatePicker::make('event_date')
+                ->label('Event Date'),
         ])
         ->columns(2);
-}
+    }
 
     public static function table(Table $table): Table
     {
@@ -83,6 +106,14 @@ class DeckResource extends Resource
                 ->searchable()
                 ->sortable(),
 
+            TextColumn::make('author')
+                ->searchable(),
+
+            TextColumn::make('tournament_name')
+                ->label('Tournament'),
+
+            TextColumn::make('placement'),
+
             TextColumn::make('difficulty')
                 ->badge()
                 ->sortable(),
@@ -94,23 +125,22 @@ class DeckResource extends Resource
                 ->dateTime('d M Y')
                 ->sortable(),
         ])
-            ->filters([
-                //
-            ])
-            ->actions([
-                Tables\Actions\EditAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+        ->filters([
+            //
+        ])
+        ->actions([
+            Tables\Actions\EditAction::make(),
+        ])
+        ->bulkActions([
+            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\DeleteBulkAction::make(),
+            ]),
+        ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            RelationManagers\GuidesRelationManager::class,
             RelationManagers\CardsRelationManager::class,
         ];
     }

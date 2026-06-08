@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use App\Models\Archetype;
 
 class Deck extends Model
 {
@@ -15,6 +16,12 @@ class Deck extends Model
         'thumbnail',
         'difficulty',
         'is_active',
+        
+        'author',
+        'source',
+        'tournament_name',
+        'placement',
+        'event_date',
     ];
 
     public function guides(): HasMany
@@ -30,6 +37,13 @@ class Deck extends Model
                 'card_role',
             ])
             ->withTimestamps();
+    }
+
+    public function archetype()
+    {
+        return $this->belongsTo(
+            Archetype::class
+        );
     }
 
     public function tierListItems(): HasMany
