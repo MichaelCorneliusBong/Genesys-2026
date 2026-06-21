@@ -36,47 +36,74 @@
     <div class="flex items-center justify-between mb-8">
 
         <h2 class="text-4xl font-bold">
-            Featured Decks
+            Featured Archetypes
         </h2>
 
         <span class="text-zinc-500">
-            {{ $featuredDecks->count() }} Decks
+            {{ $featuredArchetypes->count() }} Archetypes
         </span>
 
     </div>
 
     <div class="grid md:grid-cols-3 gap-6">
 
-        @foreach ($featuredDecks as $deck)
+        @foreach ($featuredArchetypes as $archetype)
 
             <a
-                href="{{ route('decks.show', $deck) }}"
+                href="{{ route('archetypes.show', $archetype) }}"
                 class="
-                    bg-zinc-900
+                    relative
+                    overflow-hidden
                     border border-zinc-800
                     rounded-2xl
                     p-6
                     hover:border-red-600
                     hover:-translate-y-1
                     transition
+                    bg-zinc-900
                 "
             >
 
-                <div class="flex items-center justify-between mb-4">
+                {{-- Background Artwork --}}
+                @if($archetype->thumbnail)
 
-                    <h3 class="text-2xl font-bold">
-                        {{ $deck->name }}
-                    </h3>
+                    <img
+                        src="{{ asset('storage/' . $archetype->thumbnail) }}"
+                        alt="{{ $archetype->name }}"
+                        class="
+                            absolute
+                            inset-0
+                            w-full
+                            h-full
+                            object-cover
+                            opacity-20
+                        "
+                    >
 
-                    <span class="text-red-500">
-                        →
-                    </span>
+                    <div class="absolute inset-0 bg-black/60"></div>
+
+                @endif
+
+                {{-- Content --}}
+                <div class="relative z-10">
+
+                    <div class="flex items-center justify-between mb-4">
+
+                        <h3 class="text-2xl font-bold">
+                            {{ $archetype->name }}
+                        </h3>
+
+                        <span class="text-red-500 text-xl">
+                            →
+                        </span>
+
+                    </div>
+
+                    <p class="text-zinc-300">
+                        {{ $archetype->decks_count }} Tournament Decks
+                    </p>
 
                 </div>
-
-                <p class="text-zinc-400">
-                    {{ ucfirst($deck->difficulty) }}
-                </p>
 
             </a>
 

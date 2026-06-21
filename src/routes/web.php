@@ -5,6 +5,7 @@ use Livewire\Livewire;
 use Illuminate\Support\Facades\Response;
 use App\Http\Controllers\DeckController;
 use App\Http\Controllers\HomeController;
+use App\Models\Archetype;
 
 /* NOTE: Do Not Remove
 / Livewire asset handling if using sub folder in domain
@@ -20,9 +21,24 @@ Livewire::setScriptRoute(function ($handle) {
 /*
 / END
 */
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [HomeController::class, 'index'])
+    ->name('home');
+
+    Route::get(
+    '/archetypes/{archetype:slug}',
+    function (Archetype $archetype) {
+
+        return view(
+            'archetypes.show',
+            [
+                'archetype' => $archetype->load(
+                    'guides',
+                    'decks'
+                ),
+            ]
+        );
+    }
+)->name('archetypes.show');
 
 Route::get('/decks', [DeckController::class, 'index'])
     ->name('decks.index');
@@ -30,5 +46,3 @@ Route::get('/decks', [DeckController::class, 'index'])
 Route::get('/decks/{deck:slug}', [DeckController::class, 'show'])
     ->name('decks.show');
 
-Route::get('/', [HomeController::class, 'index'])
-    ->name('home');

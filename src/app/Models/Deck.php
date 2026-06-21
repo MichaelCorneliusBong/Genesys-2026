@@ -24,11 +24,6 @@ class Deck extends Model
         'event_date',
     ];
 
-    public function guides(): HasMany
-    {
-        return $this->hasMany(Guide::class);
-    }
-
     public function cards(): BelongsToMany
     {
         return $this->belongsToMany(Card::class, 'deck_cards')

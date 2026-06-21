@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Storage;
 
 class Card extends Model
 {
@@ -42,5 +43,15 @@ class Card extends Model
                 'card_role',
             ])
             ->withTimestamps();
+    }
+
+    public function hasLocalImage(): bool
+    {
+        if (! $this->local_image) {
+            return false;
+        }
+
+        return Storage::disk('public')
+            ->exists($this->local_image);
     }
 }

@@ -2,16 +2,40 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\Archetype;
 
 class ArchetypeSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        //
+        Archetype::insert([
+
+            [
+                'name' => 'Blue-Eyes',
+                'slug' => 'blue-eyes',
+            ],
+
+            [
+                'name' => 'Red Dragon Archfiend',
+                'slug' => 'red-dragon-archfiend',
+            ],
+
+            [
+                'name' => 'Radiant Typhoon',
+                'slug' => 'radiant-typhoon',
+            ],
+
+            [
+                'name' => 'Voiceless Voice',
+                'slug' => 'voiceless-voice',
+            ],
+
+            [
+                'name' => 'Mimighoul',
+                'slug' => 'mimighoul',
+            ],
+
+        ]);
     }
 }

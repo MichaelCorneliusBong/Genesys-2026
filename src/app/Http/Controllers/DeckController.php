@@ -21,10 +21,10 @@ class DeckController extends Controller
 
     public function show(Deck $deck): View
     {
-        $deck->load([
-            'guides' => fn ($query) => $query->orderBy('sort_order'),
+        $deck->load(
             'cards',
-        ]);
+            'archetype'
+        );
 
         $mainDeck = $deck->cards
             ->where('pivot.card_role', 'main');

@@ -51,10 +51,6 @@ class DeckResource extends Resource
                 ->required()
                 ->unique(ignoreRecord: true),
 
-            FileUpload::make('thumbnail')
-                ->image()
-                ->directory('decks'),
-
             Select::make('difficulty')
                 ->options([
                     'beginner' => 'Beginner',

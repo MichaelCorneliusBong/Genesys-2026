@@ -33,7 +33,7 @@
                     <span>
                         Guides:
                         <span class="text-white">
-                            {{ $deck->guides->count() }}
+                            {{ $deck->archetype?->guides?->count() ?? 0 }}  
                         </span>
                     </span>
 
@@ -62,39 +62,6 @@
         </div>
 
     </div>
-
-    {{-- GUIDES --}}
-    @if($deck->guides->count())
-
-        <div class="mb-12">
-
-            <h2 class="text-3xl font-bold mb-6 text-red-500">
-                Guides
-            </h2>
-
-            <div class="grid md:grid-cols-2 gap-4">
-
-                @foreach($deck->guides as $guide)
-
-                    <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-5">
-
-                        <h3 class="text-xl font-bold mb-2">
-                            {{ $guide->title }}
-                        </h3>
-
-                        <div class="text-zinc-400">
-                            Step {{ $guide->sort_order }}
-                        </div>
-
-                    </div>
-
-                @endforeach
-
-            </div>
-
-        </div>
-
-    @endif
 
     {{-- MAIN DECK --}}
     <div class="mb-12">

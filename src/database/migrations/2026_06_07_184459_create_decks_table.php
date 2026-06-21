@@ -20,8 +20,6 @@ return new class extends Migration
 
             $table->text('description')->nullable();
 
-            $table->string('thumbnail')->nullable();
-
             $table->enum('difficulty', [
             'beginner',
             'intermediate',
