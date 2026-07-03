@@ -12,34 +12,38 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tier_list_items', function (Blueprint $table) {
+
             $table->id();
 
             $table->foreignId('tier_list_id')
                 ->constrained()
                 ->cascadeOnDelete();
 
-            $table->foreignId('deck_id')
+            $table->foreignId('archetype_id')
                 ->constrained()
                 ->cascadeOnDelete();
 
             $table->enum('tier', [
+
                 'S',
                 'A',
                 'B',
                 'C',
-                'D',
+
             ]);
 
-            $table->unsignedInteger('ranking')
+            $table->unsignedInteger('position')
                 ->default(1);
 
             $table->timestamps();
+
+            $table->unique([
+                'tier_list_id',
+                'archetype_id',
+            ]);
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('tier_list_items');

@@ -17,6 +17,7 @@ use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Tables\Columns\TextColumn;
+use Illuminate\Support\Str;
 
 class GuideResource extends Resource
 {
@@ -46,12 +47,18 @@ class GuideResource extends Resource
 
             TextInput::make('title')
                 ->required()
-                ->maxLength(255),
+                ->maxLength(255)
+                ->live(onBlur: true)
+                ->afterStateUpdated(function ($state, callable $set) {
+                    $set('slug', Str::slug($state));
+                }),
 
-            TextInput::make('sort_order')
-                ->numeric()
-                ->default(0)
+            TextInput::make('slug')
                 ->required(),
+
+            TextInput::make('description')
+                ->required()
+                ->maxLength(255),
 
             RichEditor::make('content')
                 ->required()
@@ -64,19 +71,20 @@ class GuideResource extends Resource
     {
     return $table
         ->columns([
-            TextColumn::make('archetype.name')
+
+            Tables\Columns\TextColumn::make('title')
+                ->searchable()
+                ->sortable(),
+
+            Tables\Columns\TextColumn::make('archetype.name')
                 ->label('Archetype')
                 ->searchable()
                 ->sortable(),
 
-            TextColumn::make('title')
-                ->searchable()
-                ->sortable(),
+            Tables\Columns\TextColumn::make('slug')
+                ->copyable(),
 
-            TextColumn::make('sort_order')
-                ->sortable(),
-
-            TextColumn::make('created_at')
+            Tables\Columns\TextColumn::make('created_at')
                 ->dateTime('d M Y')
                 ->sortable(),
         ])

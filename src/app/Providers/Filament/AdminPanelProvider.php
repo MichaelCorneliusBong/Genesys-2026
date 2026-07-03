@@ -108,6 +108,7 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->resources([
                 config('filament-logger.activity_resource'),
+                \App\Filament\Admin\Resources\ArticleResource::class,
             ])
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->middleware([

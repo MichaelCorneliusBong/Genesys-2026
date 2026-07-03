@@ -3,15 +3,13 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\ArticleResource\Pages;
-use App\Filament\Admin\Resources\ArticleResource\RelationManagers;
 use App\Models\Article;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class ArticleResource extends Resource
 {
@@ -19,11 +17,46 @@ class ArticleResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Genesys';
+
+    protected static ?int $navigationSort = 5;
+
+    protected static ?string $modelLabel = 'Article';
+
+    protected static ?string $pluralModelLabel = 'Articles';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+
+                Forms\Components\TextInput::make('title')
+                    ->required()
+                    ->maxLength(255)
+                    ->live(onBlur: true)
+                    ->afterStateUpdated(function ($state, callable $set) {
+                        $set('slug', Str::slug($state));
+                    }),
+
+                Forms\Components\TextInput::make('slug')
+                    ->required()
+                    ->unique(ignoreRecord: true),
+
+                Forms\Components\FileUpload::make('thumbnail')
+                    ->directory('articles')
+                    ->image(),
+
+                Forms\Components\Select::make('status')
+                    ->options([
+                        'draft' => 'Draft',
+                        'published' => 'Published',
+                    ])
+                    ->required(),
+
+                Forms\Components\RichEditor::make('content')
+                    ->required()
+                    ->columnSpanFull(),
+
             ]);
     }
 
@@ -31,25 +64,48 @@ class ArticleResource extends Resource
     {
         return $table
             ->columns([
-                //
+
+                Tables\Columns\ImageColumn::make('thumbnail')
+                    ->square(),
+
+                Tables\Columns\TextColumn::make('title')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\BadgeColumn::make('status')
+                    ->colors([
+                        'gray' => 'draft',
+                        'success' => 'published',
+                    ]),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime('d M Y')
+                    ->sortable(),
+
             ])
             ->filters([
-                //
+
             ])
             ->actions([
+
                 Tables\Actions\EditAction::make(),
+
             ])
             ->bulkActions([
+
                 Tables\Actions\BulkActionGroup::make([
+
                     Tables\Actions\DeleteBulkAction::make(),
+
                 ]),
+
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+
         ];
     }
 

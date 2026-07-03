@@ -12,14 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('tier_lists', function (Blueprint $table) {
+
             $table->id();
 
-            $table->string('title');
+            $table->string('name');
 
-            $table->string('season');
-
-            $table->timestamp('published_at')
+            $table->text('description')
                 ->nullable();
+
+            $table->boolean('is_active')
+                ->default(false);
 
             $table->timestamps();
         });

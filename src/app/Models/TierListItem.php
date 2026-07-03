@@ -8,19 +8,28 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class TierListItem extends Model
 {
     protected $fillable = [
+
         'tier_list_id',
-        'deck_id',
+
+        'archetype_id',
+
         'tier',
-        'ranking',
+
+        'position',
+
     ];
 
     public function tierList(): BelongsTo
     {
-        return $this->belongsTo(TierList::class);
+        return $this->belongsTo(
+            TierList::class
+        );
     }
 
-    public function deck(): BelongsTo
+    public function archetype(): BelongsTo
     {
-        return $this->belongsTo(Deck::class);
+        return $this->belongsTo(
+            Archetype::class
+        );
     }
 }

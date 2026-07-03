@@ -11,8 +11,9 @@ class Guide extends Model
     protected $fillable = [
         'archetype_id',
         'title',
+        'slug',
+        'description',
         'content',
-        'sort_order',
     ];
 
     public function archetype()

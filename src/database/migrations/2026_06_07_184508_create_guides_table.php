@@ -20,10 +20,12 @@ return new class extends Migration
 
             $table->string('title');
 
-            $table->longText('content');
+            $table->string('slug')
+                ->unique();
 
-            $table->unsignedInteger('sort_order')
-                ->default(0);
+            $table->text('description');
+
+            $table->longText('content');
 
             $table->timestamps();
         });

@@ -3,15 +3,13 @@
 namespace App\Filament\Admin\Resources;
 
 use App\Filament\Admin\Resources\TierListResource\Pages;
-use App\Filament\Admin\Resources\TierListResource\RelationManagers;
+use App\Filament\Admin\Resources\TierListResource\RelationManagers\ItemsRelationManager;
 use App\Models\TierList;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class TierListResource extends Resource
 {
@@ -19,11 +17,31 @@ class TierListResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
+    protected static ?string $navigationGroup = 'Genesys';
+
+    protected static ?int $navigationSort = 6;
+
+    protected static ?string $modelLabel = 'Tier List';
+
+    protected static ?string $pluralModelLabel = 'Tier Lists';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+
+                Forms\Components\TextInput::make('name')
+                    ->required()
+                    ->maxLength(255),
+
+                Forms\Components\Textarea::make('description')
+                    ->rows(4)
+                    ->columnSpanFull(),
+
+                Forms\Components\Toggle::make('is_active')
+                    ->label('Active Tier List')
+                    ->default(false),
+
             ]);
     }
 
@@ -31,25 +49,45 @@ class TierListResource extends Resource
     {
         return $table
             ->columns([
-                //
+
+                Tables\Columns\TextColumn::make('name')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\IconColumn::make('is_active')
+                    ->label('Active')
+                    ->boolean(),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime('d M Y')
+                    ->sortable(),
+
             ])
             ->filters([
-                //
+
             ])
             ->actions([
+
                 Tables\Actions\EditAction::make(),
+
             ])
             ->bulkActions([
+
                 Tables\Actions\BulkActionGroup::make([
+
                     Tables\Actions\DeleteBulkAction::make(),
+
                 ]),
+
             ]);
     }
 
     public static function getRelations(): array
     {
         return [
-            //
+
+            ItemsRelationManager::class,
+
         ];
     }
 

@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('articles', function (Blueprint $table) {
+
             $table->id();
 
             $table->string('title');
@@ -19,16 +20,15 @@ return new class extends Migration
             $table->string('slug')
                 ->unique();
 
-            $table->text('excerpt')
+            $table->string('thumbnail')
                 ->nullable();
 
             $table->longText('content');
 
-            $table->string('thumbnail')
-                ->nullable();
-
-    $table->timestamp('published_at')
-        ->nullable();
+            $table->enum('status', [
+                'draft',
+                'published',
+            ])->default('draft');
 
             $table->timestamps();
         });
