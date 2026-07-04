@@ -10,6 +10,8 @@ use App\Models\Bookmark;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuizController;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\LoginOtpMail;
 
 Route::get('/', function () {
     return view('home');
@@ -169,3 +171,11 @@ Route::middleware('auth')->group(function () {
         ->name('quiz.submit');
 
 });
+
+Route::get('/verify-otp',
+    [AuthController::class,'showVerifyOtp']
+)->name('verify.otp');
+
+Route::post('/verify-otp',
+    [AuthController::class,'verifyOtp']
+)->name('verify.otp.post');

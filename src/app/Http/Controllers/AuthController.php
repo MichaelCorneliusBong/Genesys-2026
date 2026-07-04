@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\LoginOtpMail;
 
 class AuthController extends Controller
 {
@@ -19,29 +21,51 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
+   public function login(Request $request)
     {
         $credentials = $request->validate([
+
             'email' => ['required','email'],
+
             'password' => ['required'],
+
         ]);
 
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
+        if (! Auth::attempt($credentials)) {
 
-            $request->session()->regenerate();
+            return back()->withErrors([
 
-            return redirect('/')
-                ->with('success','Welcome back!');
+                'email' => 'Email atau password salah.'
+
+            ]);
+
         }
 
-        return back()
-            ->withErrors([
-                'email' => 'Email atau password salah.',
-            ])
-            ->onlyInput('email');
+        $user = Auth::user();
+
+        Auth::logout();
+
+        $otp = random_int(100000,999999);
+
+        $user->update([
+
+            'otp_code' => $otp,
+
+            'otp_expires_at' => now()->addMinutes(5),
+
+        ]);
+
+        Mail::to($user->email)
+            ->send(new LoginOtpMail($otp));
+
+        session([
+            'otp_user' => $user->id,
+        ]);
+
+        return redirect()->route('verify.otp');
     }
 
-    /*
+     /*
     |--------------------------------------------------------------------------
     | REGISTER
     |--------------------------------------------------------------------------
@@ -103,10 +127,12 @@ class AuthController extends Controller
 
         $user->assignRole('user');
 
-        Auth::login($user);
-
-        return redirect('/')
-            ->with('success','Register berhasil.');
+        return redirect()
+            ->route('login')
+            ->with(
+                'success',
+                'Register berhasil. Silakan login.'
+            );
     }
 
     /*
@@ -122,6 +148,68 @@ class AuthController extends Controller
         $request->session()->invalidate();
 
         $request->session()->regenerateToken();
+
+        return redirect('/');
+    }
+
+    public function showVerifyOtp()
+    {
+        if(!session()->has('otp_user')){
+
+            return redirect()->route('login');
+
+        }
+
+        return view('auth.verify-otp');
+    }
+
+    public function verifyOtp(Request $request)
+    {
+        $request->validate([
+
+            'otp'=>'required'
+
+        ]);
+
+        $user = User::find(
+            session('otp_user')
+        );
+
+        if(!$user){
+
+            return redirect()->route('login');
+
+        }
+
+        if(
+
+            $user->otp_code != $request->otp ||
+
+            now()->greaterThan($user->otp_expires_at)
+
+        ){
+
+            return back()->withErrors([
+
+                'otp'=>'OTP salah atau sudah expired.'
+
+            ]);
+
+        }
+
+        $user->update([
+
+            'otp_code'=>null,
+
+            'otp_expires_at'=>null,
+
+            'email_verified_at'=>now(),
+
+        ]);
+
+        Auth::login($user);
+
+        session()->forget('otp_user');
 
         return redirect('/');
     }

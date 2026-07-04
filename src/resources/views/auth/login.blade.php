@@ -10,7 +10,7 @@ Login
 
 </h1>
 
-<form method="POST">
+<form method="POST" action="{{ route('login') }}">
 
 @csrf
 
