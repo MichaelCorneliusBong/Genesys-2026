@@ -1,87 +1,146 @@
-<nav class="bg-white shadow">
+<nav class="sticky top-0 z-50 border-b border-gray-800 bg-slate-900/90 backdrop-blur-md">
 
-    <div class="container mx-auto px-6">
+    <div class="max-w-7xl mx-auto px-6">
 
-        <div class="flex justify-between items-center h-16">
+        <div class="h-20 flex items-center justify-between">
 
-            <a href="{{ route('home') }}" class="text-2xl font-bold text-blue-600">
+            {{-- Logo --}}
+            <a href="{{ route('home') }}"
+               class="flex items-center gap-4">
 
-                GenesysMeta
+                <div
+                    class="w-11 h-11 rounded-2xl bg-red-600 flex items-center justify-center shadow-lg">
+
+                    <span class="text-xl font-black text-white">
+
+                        G
+
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <h1
+                        class="text-white text-2xl font-bold tracking-wide">
+
+                        GenesysMeta
+
+                    </h1>
+
+                    <p
+                        class="text-xs text-gray-400">
+
+                        Yu-Gi-Oh! Format Database
+
+                    </p>
+
+                </div>
 
             </a>
 
-            <div class="flex items-center gap-6">
+            {{-- Center Menu --}}
+            <div
+                class="hidden lg:flex items-center gap-8">
 
-                <a href="{{ route('decks.index') }}">
-                    Decks
-                </a>
+                @php
 
-                <a href="{{ route('guides.index') }}">
-                    Guides
-                </a>
+                    $menus = [
 
-                <a href="{{ route('articles.index') }}">
-                    Articles
-                </a>
+                        ['Home','home'],
 
-                <a href="{{ route('tierlists.index') }}">
-                    Tier Lists
-                </a>
+                        ['Decks','decks.index'],
+
+                        ['Guides','guides.index'],
+
+                        ['Articles','articles.index'],
+
+                        ['Tier List','tierlists.index'],
+
+                        ['Cards','cards.search'],
+
+                    ];
+
+                @endphp
+
+                @foreach($menus as $menu)
+
+                    <a
+                        href="{{ route($menu[1]) }}"
+                        class="text-gray-300 hover:text-white transition-all duration-200 hover:-translate-y-0.5">
+
+                        {{ $menu[0] }}
+
+                    </a>
+
+                @endforeach
+
+            </div>
+
+            {{-- Right --}}
+            <div
+                class="flex items-center gap-3">
 
                 @guest
 
-                <a href="{{ route('login') }}">
+                    <a
+                        href="{{ route('login') }}"
+                        class="text-gray-300 hover:text-white">
 
-                Login
+                        Login
 
-                </a>
+                    </a>
 
-                <a href="{{ route('register') }}">
+                    <a
+                        href="{{ route('register') }}"
+                        class="rounded-xl bg-red-600 px-5 py-2.5 text-white hover:bg-red-700 transition">
 
-                Register
+                        Register
 
-                </a>
+                    </a>
 
                 @endguest
 
-
                 @auth
 
-                <a href="{{ route('bookmarks.index') }}">
+                    <a
+                        href="{{ route('bookmarks.index') }}"
+                        class="rounded-xl bg-gray-800 px-4 py-2 text-gray-300 hover:bg-gray-700">
 
-                Bookmarks
+                        🔖
 
-                </a>
+                    </a>
 
-                <a href="{{ route('quiz.index') }}">
+                    <a
+                        href="{{ route('quiz.index') }}"
+                        class="rounded-xl bg-gray-800 px-4 py-2 text-gray-300 hover:bg-gray-700">
 
-                Quiz
-                
-                </a>
+                        🧠
 
-                <span>
+                    </a>
 
-                <a href="{{ route('profile') }}">
+                    <a
+                        href="{{ route('profile') }}"
+                        class="rounded-xl bg-gray-800 px-5 py-2 text-white hover:bg-gray-700">
 
-                Hi, {{ auth()->user()->name }}
-                
-                </a>
+                        {{ auth()->user()->name }}
 
-                </span>
+                    </a>
 
-                <form
-                method="POST"
-                action="{{ route('logout') }}">
+                    <form
+                        method="POST"
+                        action="{{ route('logout') }}">
 
-                @csrf
+                        @csrf
 
-                <button>
+                        <button
+                            class="rounded-xl bg-red-600 px-5 py-2 text-white hover:bg-red-700 transition">
 
-                Logout
+                            Logout
 
-                </button>
+                        </button>
 
-                </form>
+                    </form>
 
                 @endauth
 

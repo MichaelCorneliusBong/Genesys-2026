@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Models\Archetype;
 use App\Models\Deck;
+use App\Models\Card;
 use App\Models\Guide;
 use App\Models\Article;
 use App\Models\TierList;
@@ -179,3 +180,28 @@ Route::get('/verify-otp',
 Route::post('/verify-otp',
     [AuthController::class,'verifyOtp']
 )->name('verify.otp.post');
+
+Route::get('/cards/search', function (Illuminate\Http\Request $request) {
+
+    $query = Card::query();
+
+    if ($request->filled('q')) {
+
+        $query->where(
+            'name',
+            'like',
+            '%' . $request->q . '%'
+        );
+
+    }
+
+    $cards = $query
+        ->orderBy('name')
+        ->paginate(25);
+
+    return view(
+        'cards.search',
+        compact('cards')
+    );
+
+})->name('cards.search');
