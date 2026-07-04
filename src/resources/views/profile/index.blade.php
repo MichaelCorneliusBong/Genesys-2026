@@ -2,202 +2,273 @@
 
 @section('content')
 
-<div class="max-w-3xl mx-auto">
-
-    <h1 class="text-4xl font-bold mb-8">
-
-        My Profile
-
-    </h1>
+<div class="max-w-6xl mx-auto px-6 py-14">
 
     @if(session('success'))
 
-        <div class="mb-6 p-4 bg-green-100 border border-green-300 rounded">
+    <div class="mb-8 rounded-2xl border border-green-500/30 bg-green-500/10 p-5 text-green-300">
 
-            {{ session('success') }}
+        {{ session('success') }}
 
-        </div>
+    </div>
 
     @endif
 
     @if($errors->any())
 
-        <div class="mb-6 p-4 bg-red-100 border border-red-300 rounded">
+    <div class="mb-8 rounded-2xl border border-red-500/30 bg-red-500/10 p-5 text-red-300">
 
-            <ul>
+        <ul class="space-y-2">
 
-                @foreach($errors->all() as $error)
+            @foreach($errors->all() as $error)
 
-                    <li>{{ $error }}</li>
+                <li>• {{ $error }}</li>
 
-                @endforeach
+            @endforeach
 
-            </ul>
+        </ul>
 
-        </div>
+    </div>
 
     @endif
 
-    <form
-        method="POST"
-        action="{{ route('profile.update') }}">
+    {{-- Header --}}
+    <div
+        class="rounded-3xl border border-slate-800 bg-slate-900 p-8">
 
-        @csrf
+        <div
+            class="flex flex-col lg:flex-row items-center gap-8">
 
-        <div class="mb-5">
+            <img
+                src="{{ auth()->user()->getFilamentAvatarUrl() }}"
+                class="w-36 h-36 rounded-full border-4 border-red-500 object-cover">
 
-            <label class="font-semibold">
+            <div class="flex-1">
 
-                Name
+                <h1
+                    class="text-5xl font-black text-white">
 
-            </label>
+                    {{ $user->name }}
 
-            <input
-                type="text"
-                name="name"
-                value="{{ old('name',$user->name) }}"
-                class="w-full border rounded p-2">
+                </h1>
 
-        </div>
+                <p
+                    class="mt-3 text-slate-400">
 
-        <div class="mb-5">
+                    {{ $user->email }}
 
-            <label class="font-semibold">
+                </p>
 
-                Email
+                <div
+                    class="mt-6 flex flex-wrap gap-3">
 
-            </label>
+                    <span
+                        class="rounded-full bg-red-600 px-4 py-2 text-white text-sm">
 
-            <input
-                type="email"
-                value="{{ $user->email }}"
-                class="w-full border rounded p-2 bg-gray-100"
-                readonly>
+                        Member
 
-        </div>
+                    </span>
 
-        <div class="mb-5">
+                    <span
+                        class="rounded-full bg-slate-800 px-4 py-2 text-slate-300 text-sm">
 
-            <label class="font-semibold">
+                        Joined {{ $user->created_at->format('M Y') }}
 
-                New Password
+                    </span>
 
-            </label>
+                </div>
 
-            <input
-                type="password"
-                name="password"
-                class="w-full border rounded p-2">
+            </div>
 
         </div>
 
-        <div class="mb-5">
+    </div>
 
-            <label class="font-semibold">
+    {{-- Statistics --}}
+    <div
+        class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-10">
 
-                Confirm Password
+        <div class="rounded-3xl bg-slate-900 border border-slate-800 p-6">
 
-            </label>
+            <div class="text-slate-400">
 
-            <input
-                type="password"
-                name="password_confirmation"
-                class="w-full border rounded p-2">
+                Bookmarks
 
-        </div>
+            </div>
 
-        <button
-            class="px-5 py-2 bg-blue-600 text-white rounded">
-
-            Save Changes
-
-        </button>
-
-    </form>
-
-    <div class="mt-10 border-t pt-8">
-
-        <h2 class="text-2xl font-bold mb-4">
-
-            Statistics
-
-            <hr class="my-6">
-
-            <h2 class="text-2xl font-bold mb-4">
-
-            Quiz Statistics
-
-            </h2>
-
-            <p>
-
-            Total Quiz Played :
-
-            <strong>
-
-            {{ $totalQuiz }}
-
-            </strong>
-
-            </p>
-
-            <p>
-
-            Highest Score :
-
-            <strong>
-
-            {{ $highestScore ?? 0 }}
-
-            </strong>
-
-            </p>
-
-            @if($lastQuiz)
-
-            <p>
-
-            Last Quiz :
-
-            <strong>
-
-            {{ $lastQuiz->score }}
-
-            /
-
-            {{ $lastQuiz->total_question }}
-
-            </strong>
-
-            </p>
-
-            @endif
-
-        </h2>
-
-        <p>
-
-            Total Bookmarks :
-
-            <strong>
+            <div class="mt-3 text-4xl font-black text-white">
 
                 {{ $user->bookmarks()->count() }}
 
-            </strong>
+            </div>
 
-        </p>
+        </div>
 
-        <p>
+        <div class="rounded-3xl bg-slate-900 border border-slate-800 p-6">
 
-            Member Since :
+            <div class="text-slate-400">
 
-            <strong>
+                Quiz Played
 
-                {{ $user->created_at->format('d M Y') }}
+            </div>
 
-            </strong>
+            <div class="mt-3 text-4xl font-black text-white">
 
-        </p>
+                {{ $totalQuiz }}
+
+            </div>
+
+        </div>
+
+        <div class="rounded-3xl bg-slate-900 border border-slate-800 p-6">
+
+            <div class="text-slate-400">
+
+                Highest Score
+
+            </div>
+
+            <div class="mt-3 text-4xl font-black text-red-400">
+
+                {{ $highestScore ?? 0 }}
+
+            </div>
+
+        </div>
+
+        <div class="rounded-3xl bg-slate-900 border border-slate-800 p-6">
+
+            <div class="text-slate-400">
+
+                Last Quiz
+
+            </div>
+
+            <div class="mt-3 text-2xl font-bold text-white">
+
+                @if($lastQuiz)
+
+                    {{ $lastQuiz->score }}
+
+                    /
+
+                    {{ $lastQuiz->total_question }}
+
+                @else
+
+                    -
+
+                @endif
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {{-- Profile Settings --}}
+    <div
+        class="mt-10 rounded-3xl border border-slate-800 bg-slate-900 p-8">
+
+        <h2
+            class="text-3xl font-bold text-white mb-8">
+
+            Account Settings
+
+        </h2>
+
+        <form
+            method="POST"
+            action="{{ route('profile.update') }}">
+
+            @csrf
+
+            <div class="space-y-6">
+
+                <div>
+
+                    <label
+                        class="block mb-2 font-semibold text-slate-300">
+
+                        Name
+
+                    </label>
+
+                    <input
+                        type="text"
+                        name="name"
+                        value="{{ old('name',$user->name) }}"
+                        class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-white focus:border-red-500 focus:ring-red-500">
+
+                </div>
+
+                <div>
+
+                    <label
+                        class="block mb-2 font-semibold text-slate-300">
+
+                        Email
+
+                    </label>
+
+                    <input
+                        type="email"
+                        value="{{ $user->email }}"
+                        readonly
+                        class="w-full rounded-xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-500">
+
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6">
+
+                    <div>
+
+                        <label
+                            class="block mb-2 font-semibold text-slate-300">
+
+                            New Password
+
+                        </label>
+
+                        <input
+                            type="password"
+                            name="password"
+                            class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-white focus:border-red-500">
+
+                    </div>
+
+                    <div>
+
+                        <label
+                            class="block mb-2 font-semibold text-slate-300">
+
+                            Confirm Password
+
+                        </label>
+
+                        <input
+                            type="password"
+                            name="password_confirmation"
+                            class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-white focus:border-red-500">
+
+                    </div>
+
+                </div>
+
+                <div class="pt-2">
+
+                    <button
+                        class="rounded-xl bg-red-600 hover:bg-red-700 transition px-8 py-3 font-semibold text-white">
+
+                        Save Changes
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </form>
 
     </div>
 

@@ -6,46 +6,116 @@ use Illuminate\Support\Str;
 
 @section('content')
 
-<h1 class="text-4xl font-bold mb-6">
+<div class="max-w-7xl mx-auto px-6 py-14">
 
-    Guides
+    {{-- Header --}}
+    <div class="mb-12">
 
-</h1>
+        <span class="inline-flex rounded-full border border-blue-500/30 bg-blue-500/10 px-4 py-2 text-sm text-blue-400">
 
-@if($guides->count())
+            Knowledge Base
 
-@foreach($guides as $guide)
+        </span>
 
-<div class="border rounded-lg p-5 mb-4">
+        <h1 class="mt-5 text-5xl font-black text-white">
 
-    <h2 class="text-2xl font-bold">
+            Guides
 
-        {{ $guide->title }}
+        </h1>
 
-    </h2>
+        <p class="mt-4 max-w-3xl text-lg text-slate-400">
 
-    <p class="mt-2">
+            Learn the fundamentals of the Genesys Format, improve your gameplay,
+            and master every archetype through detailed strategy guides.
 
-        {{ Str::limit($guide->description, 120) }}
+        </p>
 
-    </p>
+    </div>
 
-    <a href="#">
+    @if($guides->count())
 
-        Read Guide →
+    <div class="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900">
 
-    </a>
+        @foreach($guides as $guide)
+
+        <a
+            href="{{ route('guides.show',$guide) }}"
+            class="block border-b border-slate-800 last:border-0 hover:bg-slate-800/60 transition">
+
+            <div class="flex justify-between items-center px-8 py-7">
+
+                <div class="flex-1">
+
+                    <span class="inline-flex rounded-full bg-blue-600 px-3 py-1 text-xs font-semibold text-white">
+
+                        GUIDE
+
+                    </span>
+
+                    <h2 class="mt-4 text-2xl font-bold text-white hover:text-red-400 transition">
+
+                        {{ $guide->title }}
+
+                    </h2>
+
+                    <p class="mt-3 text-slate-400 leading-7">
+
+                        {{ Str::limit($guide->description,160) }}
+
+                    </p>
+
+                </div>
+
+                <div>
+
+                    <span class="rounded-xl bg-red-600 px-5 py-3 font-semibold text-white">
+
+                        Read →
+
+                    </span>
+
+                </div>
+
+            </div>
+
+        </a>
+
+        @endforeach
+
+    </div>
+
+    <div class="mt-10">
+
+        {{ $guides->links() }}
+
+    </div>
+
+    @else
+
+    <div class="rounded-3xl border border-slate-800 bg-slate-900 py-20 text-center">
+
+        <div class="text-6xl">
+
+            📚
+
+        </div>
+
+        <h2 class="mt-6 text-3xl font-bold text-white">
+
+            No Guide Available
+
+        </h2>
+
+        <p class="mt-4 text-slate-400">
+
+            New guides will appear here.
+
+        </p>
+
+    </div>
+
+    @endif
 
 </div>
-
-@endforeach
-
-{{ $guides->links() }}
-
-@else
-
-<p>No Guide Available.</p>
-
-@endif
 
 @endsection

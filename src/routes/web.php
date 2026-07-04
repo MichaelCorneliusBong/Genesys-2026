@@ -60,6 +60,12 @@ Route::get('/guides', function () {
 
 })->name('guides.index');
 
+Route::get('/guides/{guide:slug}', function (Guide $guide) {
+
+    return view('guides.show', compact('guide'));
+
+})->name('guides.show');
+
 Route::get('/articles', function () {
 
     $articles = Article::latest()->paginate(12);
@@ -68,6 +74,12 @@ Route::get('/articles', function () {
 
 })->name('articles.index');
 
+Route::get('/articles/{article:slug}', function (Article $article) {
+
+    return view('articles.show', compact('article'));
+
+})->name('articles.show');
+
 Route::get('/tier-lists', function () {
 
     $tierLists = TierList::latest()->paginate(12);
@@ -75,6 +87,20 @@ Route::get('/tier-lists', function () {
     return view('tierlists.index', compact('tierLists'));
 
 })->name('tierlists.index');
+
+Route::get('/tier-lists/{tierList}', function (TierList $tierList) {
+
+    $tierList->load([
+        'items.archetype',
+        'items.featuredCard',
+    ]);
+
+    return view(
+        'tierlists.show',
+        compact('tierList')
+    );
+
+})->name('tierlists.show');
 
 Route::middleware('guest')->group(function () {
 

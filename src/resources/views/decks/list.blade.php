@@ -1,139 +1,211 @@
-
 @extends('layouts.app')
 
 @section('content')
 
-<a href="{{ route('decks.index') }}"
-   class="text-blue-600">
+<div class="max-w-7xl mx-auto px-6 py-14">
 
-    ← Back to Archetypes
+    {{-- Back --}}
+    <a
+        href="{{ route('decks.index') }}"
+        class="inline-flex items-center gap-2 text-slate-400 hover:text-red-400 transition">
 
-</a>
+        ← Back to Archetypes
 
-<h1 class="text-4xl font-bold mt-4">
+    </a>
 
-    {{ $archetype->name }}
+    {{-- Header --}}
+    <div class="mt-8 mb-12">
 
-</h1>
+        <span
+            class="inline-flex items-center rounded-full border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-400">
 
-<p class="text-gray-500 mb-8">
+            Archetype
 
-    {{ $archetype->description }}
+        </span>
 
-</p>
+        <h1
+            class="mt-5 text-5xl font-black text-white">
 
-@if($decks->count())
+            {{ $archetype->name }}
 
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        </h1>
 
-@foreach($decks as $deck)
+        <p
+            class="mt-4 max-w-4xl text-slate-400">
 
-<div class="bg-white rounded-xl shadow hover:shadow-xl transition overflow-hidden">
+            {{ $archetype->description }}
 
-    @if($deck->thumbnail)
-
-        <img
-            src="{{ asset('storage/'.$deck->thumbnail) }}"
-            class="w-full h-48 object-cover">
-
-    @endif
-
-    <div class="p-5">
-
-        <h2 class="text-2xl font-bold">
-
-            {{ $deck->name }}
-
-        </h2>
-
-        <div class="mt-4 space-y-2 text-sm">
-
-            <p>
-
-                👤 <strong>Author</strong>
-
-                <br>
-
-                {{ $deck->author ?? '-' }}
-
-            </p>
-
-            <p>
-
-                🏆 <strong>Tournament</strong>
-
-                <br>
-
-                {{ $deck->tournament_name ?? '-' }}
-
-            </p>
-
-            <p>
-
-                🥇 <strong>Placement</strong>
-
-                <br>
-
-                {{ $deck->placement ?? '-' }}
-
-            </p>
-
-            <p>
-
-                📅 <strong>Date</strong>
-
-                <br>
-
-                {{ $deck->event_date ?? '-' }}
-
-            </p>
-
-            <p>
-
-                ⭐ <strong>Difficulty</strong>
-
-                <br>
-
-                {{ $deck->difficulty }}
-
-            </p>
-
-        </div>
-
-        <div class="mt-6">
-
-            <a
-                href="{{ route('decks.show',$deck->slug) }}"
-                class="px-4 py-2 rounded-lg bg-blue-600 text-white">
-
-                View Deck →
-
-            </a>
-
-        </div>
+        </p>
 
     </div>
 
+    @if($decks->count())
+
+    <div
+        class="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900">
+
+        @foreach($decks as $deck)
+
+        <div
+            class="group border-b border-slate-800 last:border-0 hover:bg-slate-800/60 transition">
+
+            <div
+                class="flex flex-col lg:flex-row lg:items-center justify-between px-8 py-6 gap-6">
+
+                {{-- Left --}}
+                <div class="flex-1">
+
+                    <h2
+                        class="text-2xl font-bold text-white group-hover:text-red-400 transition">
+
+                        {{ $deck->name }}
+
+                    </h2>
+
+                    <p
+                        class="mt-2 text-slate-400">
+
+                        By
+
+                        <span class="text-white">
+
+                            {{ $deck->author ?: 'Unknown Player' }}
+
+                        </span>
+
+                    </p>
+
+                </div>
+
+                {{-- Center --}}
+                <div
+                    class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-sm min-w-[600px]">
+
+                    <div>
+
+                        <p
+                            class="text-slate-500 uppercase tracking-wider">
+
+                            Tournament
+
+                        </p>
+
+                        <p
+                            class="mt-2 text-white font-semibold">
+
+                            {{ $deck->tournament_name ?: '-' }}
+
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        <p
+                            class="text-slate-500 uppercase tracking-wider">
+
+                            Placement
+
+                        </p>
+
+                        <p
+                            class="mt-2 text-white font-semibold">
+
+                            {{ $deck->placement ?: '-' }}
+
+                        </p>
+
+                    </div>
+
+                    <div>
+
+                        <p
+                            class="text-slate-500 uppercase tracking-wider">
+
+                            Difficulty
+
+                        </p>
+
+                        <span
+                            class="inline-flex mt-2 rounded-full bg-red-600 px-3 py-1 text-xs font-semibold text-white">
+
+                            {{ ucfirst($deck->difficulty) }}
+
+                        </span>
+
+                    </div>
+
+                    <div>
+
+                        <p
+                            class="text-slate-500 uppercase tracking-wider">
+
+                            Event Date
+
+                        </p>
+
+                        <p
+                            class="mt-2 text-white font-semibold">
+
+                            {{ $deck->event_date ?: '-' }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {{-- Right --}}
+                <div
+                    class="lg:w-44 flex justify-end">
+
+                    <a
+                        href="{{ route('decks.show',$deck->slug) }}"
+                        class="rounded-xl bg-red-600 hover:bg-red-700 px-6 py-3 text-white font-semibold transition">
+
+                        View →
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        @endforeach
+
+    </div>
+
+    <div class="mt-10">
+
+        {{ $decks->links() }}
+
+    </div>
+
+    @else
+
+    <div
+        class="rounded-3xl border border-slate-800 bg-slate-900 p-20 text-center">
+
+        <h2
+            class="text-3xl font-bold text-white">
+
+            No Deck Found
+
+        </h2>
+
+        <p
+            class="mt-4 text-slate-400">
+
+            There are currently no deck variants for this archetype.
+
+        </p>
+
+    </div>
+
+    @endif
+
 </div>
-
-@endforeach
-
-</div>
-
-<div class="mt-8">
-
-{{ $decks->links() }}
-
-</div>
-
-@else
-
-<p>
-
-No Deck Found.
-
-</p>
-
-@endif
 
 @endsection

@@ -2,70 +2,137 @@
 
 @section('content')
 
-<h1 class="text-4xl font-bold mb-8">
+<div class="max-w-7xl mx-auto px-6 py-14">
 
-My Bookmarks
+    {{-- Header --}}
+    <div class="mb-12">
 
-</h1>
+        <span
+            class="inline-flex items-center rounded-full border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-400">
 
-@if($bookmarks->count())
+            My Collection
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        </span>
 
-@foreach($bookmarks as $bookmark)
+        <h1
+            class="mt-5 text-5xl font-black text-white">
 
-<div class="bg-white rounded-xl shadow overflow-hidden">
+            Bookmarked Decks
 
-    @if($bookmark->deck->thumbnail)
+        </h1>
 
-        <img
-        src="{{ asset('storage/'.$bookmark->deck->thumbnail) }}"
-        class="w-full h-48 object-cover">
+        <p
+            class="mt-4 text-lg text-slate-400">
 
-    @endif
-
-    <div class="p-5">
-
-        <h2 class="text-2xl font-bold">
-
-            {{ $bookmark->deck->name }}
-
-        </h2>
-
-        <p class="text-gray-500 mt-2">
-
-            {{ $bookmark->deck->archetype->name }}
+            Your saved deck lists for quick access.
 
         </p>
 
-        <div class="mt-4">
+    </div>
 
-            <a
-            href="{{ route('decks.show',$bookmark->deck) }}"
-            class="px-4 py-2 rounded bg-blue-600 text-white">
+    @if($bookmarks->count())
 
-                View Deck
+    <div
+        class="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900">
 
-            </a>
+        @foreach($bookmarks as $bookmark)
+
+        <div
+            class="group border-b border-slate-800 last:border-0 hover:bg-slate-800/60 transition">
+
+            <div
+                class="flex items-center justify-between px-8 py-6">
+
+                {{-- Left --}}
+                <div class="flex items-center gap-5">
+
+                    <div
+                        class="w-14 h-14 rounded-2xl bg-red-600 flex items-center justify-center text-white text-xl">
+
+                        ⭐
+
+                    </div>
+
+                    <div>
+
+                        <h2
+                            class="text-2xl font-bold text-white group-hover:text-red-400 transition">
+
+                            {{ $bookmark->deck->name }}
+
+                        </h2>
+
+                        <p
+                            class="mt-1 text-slate-400">
+
+                            {{ $bookmark->deck->archetype->name }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {{-- Right --}}
+                <div
+                    class="flex items-center gap-3">
+
+                    <a
+                        href="{{ route('decks.show',$bookmark->deck) }}"
+                        class="rounded-xl bg-red-600 hover:bg-red-700 px-6 py-3 text-white font-semibold transition">
+
+                        View Deck →
+
+                    </a>
+
+                </div>
+
+            </div>
 
         </div>
 
+        @endforeach
+
     </div>
 
+    @else
+
+    <div
+        class="rounded-3xl border border-slate-800 bg-slate-900 py-20 text-center">
+
+        <div
+            class="text-6xl">
+
+            ⭐
+
+        </div>
+
+        <h2
+            class="mt-6 text-3xl font-bold text-white">
+
+            No Bookmarks Yet
+
+        </h2>
+
+        <p
+            class="mt-4 text-slate-400">
+
+            Save your favorite decks to access them quickly later.
+
+        </p>
+
+        <a
+            href="{{ route('decks.index') }}"
+            class="inline-flex mt-8 rounded-xl bg-red-600 hover:bg-red-700 px-6 py-3 font-semibold text-white transition">
+
+            Browse Decks
+
+        </a>
+
+    </div>
+
+    @endif
+
 </div>
-
-@endforeach
-
-</div>
-
-@else
-
-<div class="bg-yellow-100 border border-yellow-300 rounded-lg p-6">
-
-Belum ada deck yang dibookmark.
-
-</div>
-
-@endif
 
 @endsection

@@ -32,4 +32,9 @@ class TierListItem extends Model
             Archetype::class
         );
     }
+
+    public function featuredCard()
+    {
+        return $this->belongsTo(Card::class, 'featured_card_id');
+    }
 }

@@ -2,122 +2,120 @@
 
 @section('content')
 
-<div class="max-w-md mx-auto">
+<div class="min-h-[calc(100vh-180px)] flex items-center justify-center py-16">
 
-<h1 class="text-3xl font-bold mb-6">
+<div class="w-full max-w-md rounded-3xl border border-slate-800 bg-slate-900 p-10">
 
-Register
+<div class="text-center">
 
-</h1>
+<div class="text-6xl mb-5">
 
-<form method="POST" action="{{ route('register') }}">
-
-@if ($errors->any())
-    <div class="mb-4 p-4 bg-red-100 border border-red-400 rounded">
-
-        <ul>
-
-            @foreach($errors->all() as $error)
-
-                <li>{{ $error }}</li>
-
-            @endforeach
-
-        </ul>
-
-    </div>
-@endif
-
-@csrf
-
-<div class="mb-4">
-
-<label>Name</label>
-
-<input
-name="name"
-class="w-full border rounded p-2"
-required>
+📝
 
 </div>
 
-<div class="mb-4">
+<h1 class="text-4xl font-black text-white">
 
-<label>Email</label>
+Create Account
+
+</h1>
+
+<p class="mt-3 text-slate-400">
+
+Join the GenesysMeta community.
+
+</p>
+
+</div>
+
+@if($errors->any())
+
+<div class="mt-8 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-red-300">
+
+@foreach($errors->all() as $error)
+
+<p>{{ $error }}</p>
+
+@endforeach
+
+</div>
+
+@endif
+
+<form
+method="POST"
+action="{{ route('register') }}"
+class="mt-8 space-y-5">
+
+@csrf
+
+<input
+name="name"
+placeholder="Name"
+class="w-full rounded-xl border border-slate-700 bg-slate-800 p-3 text-white">
 
 <input
 type="email"
 name="email"
-class="w-full border rounded p-2"
-required>
-
-</div>
-
-<div class="mb-4">
-
-<label>Password</label>
+placeholder="Email"
+class="w-full rounded-xl border border-slate-700 bg-slate-800 p-3 text-white">
 
 <input
 type="password"
 name="password"
-class="w-full border rounded p-2"
-required>
-
-</div>
-
-<div class="mb-4">
-
-<label>Confirm Password</label>
+placeholder="Password"
+class="w-full rounded-xl border border-slate-700 bg-slate-800 p-3 text-white">
 
 <input
 type="password"
 name="password_confirmation"
-class="w-full border rounded p-2"
-required>
+placeholder="Confirm Password"
+class="w-full rounded-xl border border-slate-700 bg-slate-800 p-3 text-white">
 
-</div>
+<div>
 
-<div class="mb-4">
+<label class="text-slate-300">
 
-<label>
-
-Berapa
-
-<strong>
-
-{{ $a }} + {{ $b }}
-
-</strong>
-
-?
+Security Check
 
 </label>
 
-<input
-name="captcha"
-class="w-full border rounded p-2"
-required>
+<p class="text-slate-400 mt-2">
 
-@error('captcha')
-
-<p class="text-red-500">
-
-{{ $message }}
+{{ $a }} + {{ $b }} = ?
 
 </p>
 
-@enderror
+<input
+name="captcha"
+class="mt-3 w-full rounded-xl border border-slate-700 bg-slate-800 p-3 text-white">
 
 </div>
 
 <button
-class="bg-green-600 text-white px-5 py-2 rounded">
+class="w-full rounded-xl bg-red-600 py-3 font-bold text-white hover:bg-red-700">
 
 Register
 
 </button>
 
 </form>
+
+<p class="mt-8 text-center text-slate-400">
+
+Already have an account?
+
+<a
+href="{{ route('login') }}"
+class="text-red-400">
+
+Login
+
+</a>
+
+</p>
+
+</div>
 
 </div>
 

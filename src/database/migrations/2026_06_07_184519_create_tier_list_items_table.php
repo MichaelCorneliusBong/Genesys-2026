@@ -32,6 +32,11 @@ return new class extends Migration
 
             ]);
 
+            $table->foreignId('featured_card_id')
+                ->nullable()
+                ->constrained('cards')
+                ->nullOnDelete();
+
             $table->unsignedInteger('position')
                 ->default(1);
 

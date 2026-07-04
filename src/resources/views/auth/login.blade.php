@@ -2,64 +2,116 @@
 
 @section('content')
 
-<div class="max-w-md mx-auto">
+<div class="min-h-[calc(100vh-180px)] flex items-center justify-center py-16">
 
-<h1 class="text-3xl font-bold mb-6">
+    <div class="w-full max-w-md rounded-3xl border border-slate-800 bg-slate-900 p-10 shadow-2xl">
 
-Login
+        <div class="text-center">
 
-</h1>
+            <div class="text-6xl mb-5">🔐</div>
 
-<form method="POST" action="{{ route('login') }}">
+            <h1 class="text-4xl font-black text-white">
 
-@csrf
+                Welcome Back
 
-<div class="mb-4">
+            </h1>
 
-<label>Email</label>
+            <p class="mt-3 text-slate-400">
 
-<input
-type="email"
-name="email"
-class="w-full border rounded p-2"
-required>
+                Login to continue using GenesysMeta.
 
-</div>
+            </p>
 
-<div class="mb-4">
+        </div>
 
-<label>Password</label>
+        @if ($errors->any())
 
-<input
-type="password"
-name="password"
-class="w-full border rounded p-2"
-required>
+        <div class="mt-8 rounded-xl border border-red-500/30 bg-red-500/10 p-4 text-red-300">
 
-</div>
+            @foreach($errors->all() as $error)
 
-<div class="mb-4">
+                <p>{{ $error }}</p>
 
-<label>
+            @endforeach
 
-<input
-type="checkbox"
-name="remember">
+        </div>
 
-Remember Me
+        @endif
 
-</label>
+        <form
+            method="POST"
+            action="{{ route('login') }}"
+            class="mt-8 space-y-6">
 
-</div>
+            @csrf
 
-<button
-class="bg-blue-600 text-white px-5 py-2 rounded">
+            <div>
 
-Login
+                <label class="mb-2 block text-slate-300">
 
-</button>
+                    Email
 
-</form>
+                </label>
+
+                <input
+                    type="email"
+                    name="email"
+                    class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-white focus:border-red-500"
+                    required>
+
+            </div>
+
+            <div>
+
+                <label class="mb-2 block text-slate-300">
+
+                    Password
+
+                </label>
+
+                <input
+                    type="password"
+                    name="password"
+                    class="w-full rounded-xl border border-slate-700 bg-slate-800 px-4 py-3 text-white focus:border-red-500"
+                    required>
+
+            </div>
+
+            <label class="flex items-center gap-3 text-slate-400">
+
+                <input
+                    type="checkbox"
+                    name="remember"
+                    class="rounded border-slate-600 bg-slate-800">
+
+                Remember Me
+
+            </label>
+
+            <button
+                class="w-full rounded-xl bg-red-600 py-3 font-bold text-white transition hover:bg-red-700">
+
+                Login
+
+            </button>
+
+        </form>
+
+        <p class="mt-8 text-center text-slate-400">
+
+            Don't have an account?
+
+            <a
+                href="{{ route('register') }}"
+                class="text-red-400 hover:text-red-300">
+
+                Register
+
+            </a>
+
+        </p>
+
+    </div>
 
 </div>
 

@@ -2,68 +2,90 @@
 
 @section('content')
 
-<h1 class="text-4xl font-bold mb-8">
+<div class="max-w-3xl mx-auto px-6 py-20 text-center">
 
-Quiz Result
+    @if($score == $cards->count())
 
-</h1>
+        @php
+            $emoji="🏆";
+            $title="Perfect!";
+            $color="text-yellow-400";
+        @endphp
 
-<h2 class="text-2xl mb-6">
+    @elseif($score >= 8)
 
-Your Score
+        @php
+            $emoji="🥇";
+            $title="Excellent!";
+            $color="text-green-400";
+        @endphp
 
-<strong>
+    @elseif($score >= 6)
 
-{{ $score }}
+        @php
+            $emoji="👍";
+            $title="Good Job!";
+            $color="text-blue-400";
+        @endphp
 
-/
+    @else
 
-{{ $cards->count() }}
+        @php
+            $emoji="📚";
+            $title="Keep Learning!";
+            $color="text-red-400";
+        @endphp
 
-</strong>
+    @endif
 
-</h2>
+    <div
+        class="rounded-3xl border border-slate-800 bg-slate-900 p-12">
 
-@if($score == $cards->count())
+        <div
+            class="text-7xl">
 
-<p>
+            {{ $emoji }}
 
-Perfect! 🎉
+        </div>
 
-</p>
+        <h1
+            class="mt-6 text-5xl font-black {{ $color }}">
 
-@elseif($score >= 8)
+            {{ $title }}
 
-<p>
+        </h1>
 
-Excellent!
+        <div
+            class="mt-10 text-slate-400">
 
-</p>
+            Your Score
 
-@elseif($score >= 6)
+        </div>
 
-<p>
+        <div
+            class="mt-3 text-7xl font-black text-white">
 
-Good Job!
+            {{ $score }}
 
-</p>
+            <span
+                class="text-slate-500 text-4xl">
 
-@else
+                / {{ $cards->count() }}
 
-<p>
+            </span>
 
-Keep Learning!
+        </div>
 
-</p>
+        <a
+            href="{{ route('quiz.index') }}"
+            class="mt-12 inline-flex rounded-xl bg-red-600 px-10 py-4 text-lg font-bold text-white hover:bg-red-700 transition">
 
-@endif
+            Play Again →
 
-<a
-href="{{ route('quiz.index') }}"
-class="mt-8 inline-block px-6 py-3 bg-blue-600 text-white rounded">
+        </a>
 
-Play Again
+    </div>
 
-</a>
+</div>
 
 @endsection

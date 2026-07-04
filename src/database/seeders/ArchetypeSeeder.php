@@ -17,11 +17,6 @@ class ArchetypeSeeder extends Seeder
             ],
 
             [
-                'name' => 'Red Dragon Archfiend',
-                'slug' => 'red-dragon-archfiend',
-            ],
-
-            [
                 'name' => 'Radiant Typhoon',
                 'slug' => 'radiant-typhoon',
             ],

@@ -2,80 +2,111 @@
 
 @section('content')
 
-<h1 class="text-4xl font-bold mb-8">
+<div class="max-w-5xl mx-auto px-6 py-14">
 
-Genesys Point Quiz
+    <h1
+        class="text-5xl font-black text-white mb-10">
 
-</h1>
+        Genesys Point Quiz
 
-<form
-method="POST"
-action="{{ route('quiz.submit') }}">
+    </h1>
 
-@csrf
+    <form
+        method="POST"
+        action="{{ route('quiz.submit') }}">
 
-@foreach($cards as $index => $card)
+        @csrf
 
-<div class="border rounded-lg p-6 mb-6">
+        @foreach($cards as $index => $card)
 
-<h2 class="text-2xl font-bold mb-3">
+        <div
+            class="mb-8 rounded-3xl border border-slate-800 bg-slate-900 p-8">
 
-Question {{ $index+1 }}
+            <div
+                class="flex justify-between items-center mb-6">
 
-</h2>
+                <span
+                    class="rounded-full bg-red-600 px-4 py-2 text-white text-sm">
 
-<p class="mb-4">
+                    Question {{ $index+1 }}
 
-Berapa Genesys Point dari
+                </span>
 
-<strong>
+                <span
+                    class="text-slate-500">
 
-{{ $card->name }}
+                    {{ $index+1 }}/{{ $cards->count() }}
 
-</strong>
+                </span>
 
-?
+            </div>
 
-</p>
+            <h2
+                class="text-3xl font-bold text-white">
 
-@php
+                {{ $card->name }}
 
-$options = collect([
-    $card->genesys_points,
-    max(0,$card->genesys_points-1),
-    $card->genesys_points+1,
-    $card->genesys_points+2,
-])->unique()->shuffle();
+            </h2>
 
-@endphp
+            <p
+                class="mt-4 text-slate-400">
 
-@foreach($options as $option)
+                How many Genesys Points does this card have?
 
-<label class="block mb-2">
+            </p>
 
-<input
-type="radio"
-name="answer_{{ $card->id }}"
-value="{{ $option }}"
-required>
+            <div
+                class="grid md:grid-cols-2 gap-4 mt-8">
 
-{{ $option }}
+                @php
 
-</label>
+                $options = collect([
+                    $card->genesys_points,
+                    max(0,$card->genesys_points-1),
+                    $card->genesys_points+1,
+                    $card->genesys_points+2,
+                ])->unique()->shuffle();
 
-@endforeach
+                @endphp
+
+                @foreach($options as $option)
+
+                <label
+                    class="cursor-pointer">
+
+                    <input
+                        type="radio"
+                        class="peer hidden"
+                        name="answer_{{ $card->id }}"
+                        value="{{ $option }}"
+                        required>
+
+                    <div
+                        class="rounded-xl border border-slate-700 bg-slate-800 p-5 text-center text-white transition peer-checked:border-red-500 peer-checked:bg-red-600 hover:border-red-400">
+
+                        {{ $option }}
+
+                    </div>
+
+                </label>
+
+                @endforeach
+
+            </div>
+
+        </div>
+
+        @endforeach
+
+        <button
+            class="w-full rounded-xl bg-red-600 py-4 text-xl font-bold text-white hover:bg-red-700 transition">
+
+            Submit Quiz
+
+        </button>
+
+    </form>
 
 </div>
-
-@endforeach
-
-<button
-class="px-6 py-3 bg-green-600 text-white rounded">
-
-Submit Quiz
-
-</button>
-
-</form>
 
 @endsection

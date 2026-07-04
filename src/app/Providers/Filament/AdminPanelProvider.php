@@ -31,10 +31,11 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->spa()
+            ->brandName('GenesysMeta')
             ->login()
             ->passwordReset()
             ->profile(\App\Filament\Pages\Auth\EditProfile::class, isSimple: false)
-            ->defaultThemeMode(ThemeMode::Light)
+            ->defaultThemeMode(ThemeMode::Dark)
             ->font('Montserrat')
             ->colors([
                 'primary' => Color::Blue,

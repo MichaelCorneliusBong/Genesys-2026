@@ -2,65 +2,124 @@
 
 @section('content')
 
-<h1 class="text-4xl font-bold mb-8">
+<div class="max-w-7xl mx-auto px-6 py-14">
 
-Deck Database
+    {{-- Header --}}
+    <div class="mb-12">
 
-</h1>
+        <span
+            class="inline-flex items-center rounded-full border border-red-500/30 bg-red-500/10 px-4 py-2 text-sm text-red-400">
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            Deck Database
 
-@foreach($archetypes as $archetype)
+        </span>
 
-<a href="{{ route('decks.list',$archetype->slug) }}">
+        <h1
+            class="mt-5 text-5xl font-black text-white">
 
-<div class="bg-white rounded-xl shadow hover:shadow-xl transition overflow-hidden">
+            Browse Archetypes
 
-@if($archetype->thumbnail)
+        </h1>
 
-<img
-src="{{ asset('storage/'.$archetype->thumbnail) }}"
-class="w-full h-48 object-cover">
+        <p
+            class="mt-4 max-w-3xl text-lg text-slate-400">
 
-@else
+            Explore every supported archetype in the Genesys Format.
+            Each archetype contains tournament-ready deck variants,
+            player submissions, and optimized deck builds.
 
-<div class="h-48 bg-gray-200 flex items-center justify-center">
+        </p>
 
-No Image
+    </div>
 
-</div>
+    {{-- Grid --}}
+    <div
+        class="grid gap-8 sm:grid-cols-2 xl:grid-cols-4">
 
-@endif
+        @foreach($archetypes as $archetype)
 
-<div class="p-5">
+            <a
+                href="{{ route('decks.list',$archetype->slug) }}"
+                class="group">
 
-<h2 class="text-xl font-bold">
+                <div
+                    class="overflow-hidden rounded-3xl border border-slate-800 bg-slate-900 transition-all duration-300 hover:-translate-y-2 hover:border-red-500 hover:shadow-2xl hover:shadow-red-500/10">
 
-{{ $archetype->name }}
+                    {{-- Thumbnail --}}
+                    <div class="relative overflow-hidden">
 
-</h2>
+                        @if($archetype->thumbnail)
 
-<p class="text-gray-500 mt-2">
+                            <img
+                                src="{{ asset('storage/'.$archetype->thumbnail) }}"
+                                class="h-56 w-full object-cover transition duration-500 group-hover:scale-110">
 
-{{ Str::limit($archetype->description,80) }}
+                        @else
 
-</p>
+                            <div
+                                class="flex h-56 items-center justify-center bg-slate-800">
 
-<div class="mt-4 text-sm">
+                                <span
+                                    class="text-slate-500">
 
-{{ $archetype->decks_count }}
+                                    No Image
 
-Decks Available
+                                </span>
 
-</div>
+                            </div>
 
-</div>
+                        @endif
 
-</div>
+                        {{-- Deck Count --}}
+                        <div
+                            class="absolute right-4 top-4 rounded-full bg-red-600 px-4 py-2 text-sm font-bold text-white shadow-lg">
 
-</a>
+                            {{ $archetype->decks_count }}
 
-@endforeach
+                            Decks
+
+                        </div>
+
+                    </div>
+
+                    {{-- Content --}}
+                    <div class="p-6">
+
+                        <h2
+                            class="text-2xl font-bold text-white transition group-hover:text-red-400">
+
+                            {{ $archetype->name }}
+
+                        </h2>
+
+                        <p
+                            class="mt-4 line-clamp-3 text-sm leading-7 text-slate-400">
+
+                            {{ $archetype->description }}
+
+                        </p>
+
+                        <div
+                            class="mt-8 flex items-center justify-between">
+
+                            <span
+                                class="font-semibold text-red-500 transition group-hover:translate-x-1">
+
+                                View →
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </a>
+
+        @endforeach
+
+    </div>
 
 </div>
 

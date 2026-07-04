@@ -15,7 +15,7 @@ class TierListResource extends Resource
 {
     protected static ?string $model = TierList::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-trophy';
 
     protected static ?string $navigationGroup = 'Genesys';
 

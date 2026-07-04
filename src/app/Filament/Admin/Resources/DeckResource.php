@@ -25,7 +25,7 @@ class DeckResource extends Resource
 {
     protected static ?string $model = Deck::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-queue-list';
 
     protected static ?string $navigationGroup = 'Genesys';
 
