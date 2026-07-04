@@ -11,12 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('decks', function (Blueprint $table) {
+        Schema::create('bookmarks', function (Blueprint $table) {
 
-            $table->foreignId('archetype_id')
-                ->nullable()
+            $table->id();
+
+            $table->foreignId('user_id')
                 ->constrained()
                 ->cascadeOnDelete();
+
+            $table->foreignId('deck_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
+            $table->timestamps();
+
+            $table->unique([
+                'user_id',
+                'deck_id'
+            ]);
 
         });
     }
@@ -26,8 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('decks', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('bookmarks');
     }
 };

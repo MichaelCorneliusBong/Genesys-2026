@@ -34,6 +34,9 @@ return new class extends Migration
             $table->string('attribute')
                 ->nullable();
 
+            $table->integer('genesys_points')
+                ->default(0);
+
             $table->json('raw_data')
                 ->nullable();
 

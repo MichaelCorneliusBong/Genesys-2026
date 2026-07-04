@@ -20,6 +20,11 @@ return new class extends Migration
 
             $table->text('description')->nullable();
 
+            $table->foreignId('archetype_id')
+                ->nullable()
+                ->constrained()
+                ->cascadeOnDelete();
+
             $table->enum('difficulty', [
             'beginner',
             'intermediate',

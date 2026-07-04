@@ -52,7 +52,7 @@ class Deck extends Model
     }
 
     public function getTotalGenesysPointsAttribute(): int
-{
+    {
     return $this->cards
         ->filter(function ($card) {
             return in_array(
@@ -63,5 +63,12 @@ class Deck extends Model
         ->sum(function ($card) {
             return $card->genesys_points * $card->pivot->quantity;
         });
+    }
+
+    public function bookmarks()
+    {
+        return $this->hasMany(
+            Bookmark::class
+        );
     }
 }
