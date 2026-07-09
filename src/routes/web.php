@@ -141,7 +141,7 @@ Route::post('/bookmark/{deck}', function (Deck $deck) {
 
         return back()->with(
             'success',
-            'Bookmark berhasil dihapus.'
+            'Bookmark removed successfully.'
         );
 
     }
@@ -156,7 +156,7 @@ Route::post('/bookmark/{deck}', function (Deck $deck) {
 
     return back()->with(
         'success',
-        'Deck berhasil dibookmark.'
+        'Deck successfully bookmarked.'
     );
 
 })
@@ -191,11 +191,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/quiz', [QuizController::class, 'index'])
         ->name('quiz.index');
 
-    Route::get('/quiz/start', [QuizController::class, 'start'])
-        ->name('quiz.start');
+    Route::get('/quiz/play', [QuizController::class, 'play'])
+        ->name('quiz.play');
 
-    Route::post('/quiz/submit', [QuizController::class, 'submit'])
-        ->name('quiz.submit');
+    Route::post('/quiz/result', [QuizController::class, 'result'])
+        ->name('quiz.result');
 
 });
 

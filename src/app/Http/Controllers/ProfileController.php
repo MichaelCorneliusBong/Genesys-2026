@@ -38,9 +38,9 @@ class ProfileController extends Controller
             'name' => 'required|max:255',
             'password' => 'nullable|min:8|confirmed',
         ],[
-            'name.required' => 'Nama wajib diisi.',
-            'password.min' => 'Password minimal 8 karakter.',
-            'password.confirmed' => 'Konfirmasi password tidak sama.',
+            'name.required' => 'Name is required to be fill.',
+            'password.min' => 'Password need to be at least 8 characters.',
+            'password.confirmed' => "Confirmation password doesn't match.",
         ]);
 
         $user = Auth::user();
@@ -53,6 +53,6 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return back()->with('success','Profile berhasil diperbarui.');
+        return back()->with('success','Profile successfully updated.');
     }
 }

@@ -13,7 +13,7 @@ class QuizController extends Controller
         return view('quiz.index');
     }
 
-    public function start()
+    public function play()
     {
         $cards = Card::whereNotNull('genesys_points')
             ->inRandomOrder()
@@ -27,7 +27,7 @@ class QuizController extends Controller
         return view('quiz.play', compact('cards'));
     }
 
-    public function submit(Request $request)
+    public function result(Request $request)
     {
         $cards = Card::whereIn(
             'id',

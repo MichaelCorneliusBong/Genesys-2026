@@ -35,7 +35,7 @@ class AuthController extends Controller
 
             return back()->withErrors([
 
-                'email' => 'Email atau password salah.'
+                'email' => 'Email or password is incorrect.'
 
             ]);
 
@@ -110,7 +110,7 @@ class AuthController extends Controller
                 ->withInput()
 
                 ->withErrors([
-                    'captcha'=>'Captcha salah.'
+                    'captcha'=>'Captcha is incorrect.'
                 ]);
 
         }
@@ -131,7 +131,7 @@ class AuthController extends Controller
             ->route('login')
             ->with(
                 'success',
-                'Register berhasil. Silakan login.'
+                'Register success. Continue by Login.'
             );
     }
 
@@ -191,7 +191,7 @@ class AuthController extends Controller
 
             return back()->withErrors([
 
-                'otp'=>'OTP salah atau sudah expired.'
+                'otp'=>'Verification code is wrong or expired.'
 
             ]);
 
