@@ -54,4 +54,34 @@ class Card extends Model
         return Storage::disk('public')
             ->exists($this->local_image);
     }
+
+    public function getDescriptionAttribute()
+    {
+        return $this->raw_data['desc'] ?? null;
+    }
+
+    public function getAtkAttribute()
+    {
+        return $this->raw_data['atk'] ?? null;
+    }
+
+    public function getDefAttribute()
+    {
+        return $this->raw_data['def'] ?? null;
+    }
+
+    public function getLevelAttribute()
+    {
+        return $this->raw_data['level'] ?? null;
+    }
+
+    public function getRaceAttribute()
+    {
+        return $this->raw_data['race'] ?? null;
+    }
+
+    public function getAttributeNameAttribute()
+    {
+        return $this->raw_data['attribute'] ?? $this->attribute;
+    }
 }
