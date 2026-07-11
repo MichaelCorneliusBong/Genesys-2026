@@ -58,11 +58,13 @@
                 </div>
 
                 {{-- Card Image --}}
+                <a href="{{ route('cards.show', $card) }}">
+
                 <img
                     src="{{ $card->image_path }}"
                     title="{{ $card->name }}"
                     class="w-full rounded border border-zinc-700 group-hover:border-red-500 transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-red-950/50 cursor-pointer">
-            
+                </a>
             </div>
         @endforeach
     </div>

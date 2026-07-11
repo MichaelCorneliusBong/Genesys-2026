@@ -127,7 +127,9 @@ $isBookmarked = auth()->check()
                                 {{ $card->genesys_points }} GP
                             </span>
                         </div>
+                        <a href="{{ route('cards.show',$card) }}">
                         <img src="{{ $card->image_path }}" class="rounded shadow-md transition-all duration-200 group-hover:scale-105 group-hover:shadow-[0_0_15px_rgba(220,38,38,0.5)] group-hover:ring-2 ring-red-500 ring-offset-2 ring-offset-zinc-950">
+                        </a>
                     </div>
                 @endfor
             @endforeach
@@ -151,7 +153,9 @@ $isBookmarked = auth()->check()
                                 {{ $card->genesys_points }} GP
                             </span>
                         </div>
+                        <a href="{{ route('cards.show',$card) }}">
                         <img src="{{ $card->image_path }}" class="rounded shadow-md transition-all duration-200 group-hover:scale-105 group-hover:shadow-[0_0_15px_rgba(220,38,38,0.5)] group-hover:ring-2 ring-red-500 ring-offset-2 ring-offset-zinc-950">
+                        </a>
                     </div>
                 @endfor
             @endforeach
@@ -176,7 +180,9 @@ $isBookmarked = auth()->check()
                                 {{ $card->genesys_points }} GP
                             </span>
                         </div>
+                        <a href="{{ route('cards.show',$card) }}">
                         <img src="{{ $card->image_path }}" class="rounded shadow-md transition-all duration-200 group-hover:scale-105 group-hover:shadow-[0_0_15px_rgba(220,38,38,0.5)] group-hover:ring-2 ring-red-500 ring-offset-2 ring-offset-zinc-950">
+                        </a>
                     </div>
                 @endfor
             @endforeach

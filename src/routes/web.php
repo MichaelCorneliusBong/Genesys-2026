@@ -231,3 +231,14 @@ Route::get('/cards/search', function (Illuminate\Http\Request $request) {
     );
 
 })->name('cards.search');
+
+Route::get('/cards/{card}', function (Card $card) {
+
+    $card->load('decks.archetype');
+
+    return view(
+        'cards.show',
+        compact('card')
+    );
+
+})->name('cards.show');
