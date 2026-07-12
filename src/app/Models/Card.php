@@ -84,4 +84,37 @@ class Card extends Model
     {
         return $this->raw_data['attribute'] ?? $this->attribute;
     }
+
+    public function getFormattedDescriptionAttribute()
+    {
+        $desc = $this->description;
+
+        if (! $desc) {
+            return null;
+        }
+
+        $frame = $this->raw_data['frameType'] ?? null;
+
+        $framesWithRequirement = [
+            'fusion',
+            'ritual',
+            'synchro',
+            'xyz',
+            'link',
+        ];
+
+        if (! in_array($frame, $framesWithRequirement)) {
+            return $desc;
+        }
+
+        $lines = preg_split("/\r\n|\n|\r/", $desc);
+
+        if (count($lines) < 2) {
+            return $desc;
+        }
+
+        $requirement = array_shift($lines);
+
+        return $requirement . "\n\n" . implode("\n", $lines);
+    }
 }

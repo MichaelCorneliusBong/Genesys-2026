@@ -138,7 +138,7 @@
                     
                     <div class="p-5 sm:p-6">
                         <p class="leading-relaxed text-zinc-300 text-sm whitespace-pre-line font-medium text-justify">
-                            {{ $card->description }}
+                        {!! nl2br(e($card->formatted_description)) !!}
                         </p>
                     </div>
                 </div>
