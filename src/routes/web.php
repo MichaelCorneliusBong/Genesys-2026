@@ -222,8 +222,22 @@ Route::get('/cards/search', function (Illuminate\Http\Request $request) {
     }
 
     $cards = $query
-        ->orderBy('name')
-        ->paginate(30);
+    ->orderByRaw("
+        FIELD(
+            type,
+            'Normal Monster',
+            'Effect Monster',
+            'Tuner Monster',
+            'Fusion Monster',
+            'Synchro Monster',
+            'XYZ Monster',
+            'Link Monster',
+            'Spell Card',
+            'Trap Card'
+        )
+    ")
+    ->orderBy('name')
+    ->paginate(30);
 
     return view(
         'cards.search',

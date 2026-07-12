@@ -25,7 +25,7 @@
         </div>
 
         {{-- Desktop View: Full Numbered Pagination --}}
-        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between sm:gap-8 sm:flex-wrap">
             
             {{-- Left Side: Showing 1 to 30 of 1000 --}}
             <div>
