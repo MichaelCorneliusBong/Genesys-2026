@@ -1,151 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <title>GenesysMeta Login Verification</title>
-
+    <title>GenesysMeta Verification</title>
 </head>
+<body style="margin:0; padding:0; background-color:#09090b; font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
 
-<body style="margin:0;padding:0;background:#0f172a;font-family:Arial,Helvetica,sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="padding: 40px 20px; background-color: #09090b;">
+        <tr>
+            <td align="center">
 
-<table width="100%" cellpadding="0" cellspacing="0" style="padding:40px 0;">
+                <!-- Main Container -->
+                <table width="600" cellpadding="0" cellspacing="0" style="background-color: #18181b; border: 1px solid #27272a; border-top: 4px solid #dc2626; border-radius: 6px; overflow: hidden; text-align: left;">
+                    
+                    <!-- Header -->
+                    <tr>
+                        <td style="padding: 35px 40px 10px 40px;">
+                            <p style="margin: 0 0 5px 0; color: #ef4444; font-size: 10px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase;">
+                                System Verification
+                            </p>
+                            <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 900; letter-spacing: -1px; text-transform: uppercase;">
+                                Genesys<span style="color: #ef4444;">Meta</span>
+                            </h1>
+                        </td>
+                    </tr>
 
-<tr>
+                    <!-- Body -->
+                    <tr>
+                        <td style="padding: 20px 40px 30px 40px;">
+                            
+                            <hr style="border: 0; border-top: 1px solid #27272a; margin: 0 0 25px 0;">
 
-<td align="center">
+                            <h2 style="margin: 0 0 15px 0; color: #ffffff; font-size: 18px; font-weight: bold;">
+                                Hello,
+                            </h2>
+                            
+                            <p style="margin: 0 0 20px 0; color: #a1a1aa; font-size: 14px; line-height: 24px;">
+                                Your verification code for <strong style="color: #ffffff;">GenesysMeta</strong> is shown below. 
+                                Use this One-Time Password (OTP) to continue with your account verification.
+                            </p>
 
-<table
-width="600"
-cellpadding="0"
-cellspacing="0"
-style="background:#111827;border:1px solid #334155;border-radius:16px;overflow:hidden;">
+                            <!-- OTP Terminal Box -->
+                            <div style="margin: 35px 0; text-align: center; background-color: #09090b; border: 1px solid #27272a; border-radius: 4px; padding: 25px;">
+                                <p style="margin: 0 0 15px 0; color: #71717a; font-size: 10px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase;">
+                                    Authentication Code
+                                </p>
+                                <div style="color: #ffffff; font-size: 42px; font-weight: 900; letter-spacing: 12px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+                                    {{ $otp }}
+                                </div>
+                            </div>
 
-<tr>
+                            <p style="margin: 0 0 10px 0; color: #a1a1aa; font-size: 13px; line-height: 22px;">
+                                This verification code is valid for <strong style="color: #ffffff;">5 minutes</strong>. 
+                                For your security, never share this code with anyone.
+                            </p>
 
-<td
-style="background:#dc2626;padding:30px;text-align:center;">
+                            <p style="margin: 0; color: #71717a; font-size: 13px; line-height: 22px;">
+                                If you didn't request this verification, you can safely ignore this email.
+                            </p>
 
-<h1
-style="margin:0;color:#ffffff;font-size:32px;">
+                        </td>
+                    </tr>
 
-GenesysMeta
+                    <!-- Footer -->
+                    <tr>
+                        <td style="border-top: 1px solid #27272a; padding: 25px 40px; text-align: center; background-color: #18181b;">
+                            <p style="margin: 0; color: #71717a; font-size: 12px; font-weight: bold;">
+                                © {{ date('Y') }} GenesysMeta
+                            </p>
+                            <p style="margin: 5px 0 0 0; color: #52525b; font-size: 10px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase;">
+                                Yu-Gi-Oh! Genesys Database
+                            </p>
+                        </td>
+                    </tr>
 
-</h1>
+                </table>
 
-<p
-style="margin-top:10px;color:#fee2e2;font-size:16px;">
-
-Secure Login Verification
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td style="padding:40px;">
-
-<h2
-style="margin-top:0;color:#ffffff;">
-
-Hello,
-
-</h2>
-
-<p
-style="color:#cbd5e1;font-size:16px;line-height:28px;">
-
-We received a login request for your
-<strong style="color:#ffffff;">GenesysMeta</strong>
-account.
-
-To continue signing in, please enter the following One-Time Password (OTP):
-
-</p>
-
-<div
-style="margin:35px 0;text-align:center;">
-
-<div
-style="
-display:inline-block;
-background:#dc2626;
-color:#ffffff;
-padding:18px 40px;
-border-radius:12px;
-font-size:42px;
-font-weight:bold;
-letter-spacing:10px;
-">
-
-{{ $otp }}
-
-</div>
-
-</div>
-
-<p
-style="color:#cbd5e1;font-size:16px;line-height:28px;">
-
-This verification code is valid for
-<strong style="color:#ffffff;">
-
-5 minutes
-
-</strong>.
-
-For your security, never share this code with anyone.
-
-</p>
-
-<p
-style="color:#cbd5e1;font-size:16px;line-height:28px;">
-
-If you didn't attempt to sign in,
-you can safely ignore this email.
-
-</p>
-
-</td>
-
-</tr>
-
-<tr>
-
-<td
-style="border-top:1px solid #334155;padding:25px;text-align:center;">
-
-<p
-style="margin:0;color:#94a3b8;font-size:13px;">
-
-© {{ date('Y') }} GenesysMeta
-
-</p>
-
-<p
-style="margin-top:8px;color:#64748b;font-size:12px;">
-
-Yu-Gi-Oh! Genesys Format Database
-
-</p>
-
-</td>
-
-</tr>
-
-</table>
-
-</td>
-
-</tr>
-
-</table>
+            </td>
+        </tr>
+    </table>
 
 </body>
-
 </html>

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\LoginOtpMail;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -60,6 +61,8 @@ class AuthController extends Controller
 
         session([
             'otp_user' => $user->id,
+
+            'otp_type' => 'login',
         ]);
 
         return redirect()->route('verify.otp');
@@ -90,49 +93,53 @@ class AuthController extends Controller
     {
         $request->validate([
 
-            'name'=>'required|max:255',
+            'name' => 'required|max:255',
 
-            'email'=>'required|email|unique:users,email',
+            'email' => 'required|email|unique:users,email',
 
-            'password'=>'required|min:8|confirmed',
+            'password' => 'required|min:8|confirmed',
 
-            'captcha'=>'required|numeric',
+            'captcha' => 'required|numeric',
 
         ]);
 
-        if (
-            (int)$request->captcha !==
-            session('captcha_answer')
-        ) {
+        if ((int) $request->captcha !== session('captcha_answer')) {
 
             return back()
-
                 ->withInput()
-
                 ->withErrors([
-                    'captcha'=>'Captcha is incorrect.'
+                    'captcha' => 'Captcha is incorrect.'
                 ]);
 
         }
 
-        $user = User::create([
+        $otp = random_int(100000, 999999);
 
-            'name'=>$request->name,
+        session([
 
-            'email'=>$request->email,
+            'otp_type' => 'register',
 
-            'password'=>$request->password,
+            'register_otp' => $otp,
+
+            'register_otp_expires_at' => now()->addMinutes(5),
+
+            'pending_register' => [
+
+                'name' => $request->name,
+
+                'email' => $request->email,
+
+                'password' => Hash::make($request->password),
+
+            ],
 
         ]);
 
-        $user->assignRole('user');
+        Mail::to($request->email)
+            ->send(new LoginOtpMail($otp));
 
         return redirect()
-            ->route('login')
-            ->with(
-                'success',
-                'Register success. Continue by Login.'
-            );
+            ->route('verify.otp');
     }
 
     /*
@@ -154,10 +161,11 @@ class AuthController extends Controller
 
     public function showVerifyOtp()
     {
-        if(!session()->has('otp_user')){
-
+        if (
+            ! session()->has('otp_user') &&
+            ! session()->has('pending_register')
+        ) {
             return redirect()->route('login');
-
         }
 
         return view('auth.verify-otp');
@@ -166,32 +174,91 @@ class AuthController extends Controller
     public function verifyOtp(Request $request)
     {
         $request->validate([
-
-            'otp'=>'required'
-
+            'otp' => 'required',
         ]);
 
-        $user = User::find(
-            session('otp_user')
-        );
+        /*
+        |--------------------------------------------------------------------------
+        | REGISTER OTP
+        |--------------------------------------------------------------------------
+        */
 
-        if(!$user){
+        if (session('otp_type') === 'register') {
+
+            if (
+                session('register_otp') != $request->otp ||
+                now()->greaterThan(session('register_otp_expires_at'))
+            ) {
+
+                return back()->withErrors([
+                    'otp' => 'Verification code is wrong or expired.',
+                ]);
+
+            }
+
+            $data = session('pending_register');
+
+            $user = User::create([
+
+                'name' => $data['name'],
+
+                'email' => $data['email'],
+
+                'password' => $data['password'],
+
+                'email_verified_at' => now(),
+
+            ]);
+
+            $user->assignRole('user');
+
+            Auth::login($user);
+
+            session()->forget([
+
+                'otp_type',
+
+                'otp_user',
+
+                'register_otp',
+
+                'register_otp_expires_at',
+
+                'pending_register',
+
+                'captcha_answer',
+
+            ]);
+
+            return redirect('/')
+                ->with('success', 'Welcome to GenesysMeta!');
+        }
+
+        /*
+        |--------------------------------------------------------------------------
+        | LOGIN OTP
+        |--------------------------------------------------------------------------
+        */
+
+        $user = User::find(session('otp_user'));
+
+        if (! $user) {
 
             return redirect()->route('login');
 
         }
 
-        if(
+        if (
 
             $user->otp_code != $request->otp ||
 
             now()->greaterThan($user->otp_expires_at)
 
-        ){
+        ) {
 
             return back()->withErrors([
 
-                'otp'=>'Verification code is wrong or expired.'
+                'otp' => 'Verification code is wrong or expired.'
 
             ]);
 
@@ -199,17 +266,23 @@ class AuthController extends Controller
 
         $user->update([
 
-            'otp_code'=>null,
+            'otp_code' => null,
 
-            'otp_expires_at'=>null,
+            'otp_expires_at' => null,
 
-            'email_verified_at'=>now(),
+            'email_verified_at' => now(),
 
         ]);
 
         Auth::login($user);
 
-        session()->forget('otp_user');
+        session()->forget([
+
+            'otp_user',
+
+            'otp_type',
+
+        ]);
 
         return redirect('/');
     }

@@ -15,7 +15,7 @@ class LoginOtpMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'GenesysMeta Login OTP',
+            subject: 'GenesysMeta Verification',
         );
     }
 
