@@ -223,7 +223,7 @@ Route::get('/cards/search', function (Illuminate\Http\Request $request) {
 
     $cards = $query
         ->orderBy('name')
-        ->paginate(25);
+        ->paginate(30);
 
     return view(
         'cards.search',
