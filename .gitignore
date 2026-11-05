@@ -10,3 +10,7 @@ src/node_modules/
 # Environment files
 .env
 src/.env
+# Docker Configuration
+docker-compose.yml
+# Nginx Configuration
+nginx/default.conf
